@@ -7,98 +7,22 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header Section -->
-  <header class="header">
-    <div class="header-left">
-      <button id="homeButton" onclick="goHome()">Home</button>
-    </div>
-    <div class="header-right">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search captions..." 
-        oninput="filterGallery()" 
-      />
+  <header>
+    <h1>Anonymous Photo Upload</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search captions...">
     </div>
   </header>
-
-  <!-- Upload Section -->
-  <section class="upload-section">
-    <h1>Anonymous Photo Upload</h1>
-    <div class="upload-container">
-      <input type="file" id="photoInput" accept="image/*" required>
+  <div class="container">
+    <h2>Upload Your Photo</h2>
+    <form id="uploadForm">
+      <input type="file" id="fileInput" accept="image/*" required>
       <input type="text" id="captionInput" placeholder="Add a caption (optional)">
-      <button onclick="uploadPhoto()">Upload</button>
-    </div>
-  </section>
-
-  <!-- Gallery Section -->
-  <section class="gallery-section">
-    <h2>Public Gallery</h2>
+      <button type="submit">Upload</button>
+    </form>
+    <h3>Public Gallery</h3>
     <div class="gallery" id="gallery"></div>
-  </section>
-
-  <script>
-    // JavaScript functionality
-    const gallery = [];
-    const galleryDiv = document.getElementById('gallery');
-
-    function renderGallery() {
-      galleryDiv.innerHTML = '';
-      gallery.forEach(item => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.innerHTML = `
-          <img src="${item.url}" alt="Uploaded Image">
-          <p>${item.caption || 'No caption'}</p>
-        `;
-        galleryDiv.appendChild(galleryItem);
-      });
-    }
-
-    function uploadPhoto() {
-      const photoInput = document.getElementById('photoInput');
-      const captionInput = document.getElementById('captionInput');
-      if (!photoInput.files[0]) {
-        alert('Please select a photo to upload!');
-        return;
-      }
-      const file = photoInput.files[0];
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const photoData = {
-          url: event.target.result,
-          caption: captionInput.value.trim(),
-        };
-        gallery.push(photoData);
-        renderGallery();
-        photoInput.value = '';
-        captionInput.value = '';
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function filterGallery() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = gallery.filter(item => 
-        (item.caption || '').toLowerCase().includes(query)
-      );
-      galleryDiv.innerHTML = '';
-      filtered.forEach(item => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.innerHTML = `
-          <img src="${item.url}" alt="Uploaded Image">
-          <p>${item.caption || 'No caption'}</p>
-        `;
-        galleryDiv.appendChild(galleryItem);
-      });
-    }
-
-    function goHome() {
-      alert('Redirecting to the home page!');
-      // Replace the alert with your home page link if needed
-    }
-  </script>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
